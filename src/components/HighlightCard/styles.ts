@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
-import theme from "../../global/styles/theme";
 
 interface TypeProps {
     type: 'up' | 'down' | 'total';
@@ -38,8 +37,6 @@ export const Title = styled.Text<TypeProps>`
 
 export const Icon = styled(Feather)<TypeProps>`
     font-size:  ${RFValue(40)}px;
-
-
     ${(props) => props.type === `up` && css`
         color: ${({theme}) => theme.colors.success};
     `};
@@ -50,10 +47,7 @@ export const Icon = styled(Feather)<TypeProps>`
     
     ${(props) => props.type === `total` && css`
         color: ${({theme}) => theme.colors.shape};
-    `};
-
-
-    
+    `};    
 `;
 
 export const Footer = styled.View`

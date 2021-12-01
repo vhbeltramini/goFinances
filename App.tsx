@@ -10,7 +10,6 @@ import {
 } from '@expo-google-fonts/poppins'
 
 import theme from './src/global/styles/theme';
-import { Welcome } from './src/components/Welcome';
 import { Dashboard } from './src/screens/Dashboard';
 
 export default function App() {
