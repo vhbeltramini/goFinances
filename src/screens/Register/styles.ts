@@ -39,5 +39,7 @@ export const FormFields = styled.View`
 
 export const TransactionsOptions = styled.View`
     flex-direction: row;
+    margin-top: ${RFValue(8)}px;
+    margin-bottom: ${RFValue(16)}px;;
     justify-content: space-between;
 `;
