@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
     Alert, 
     Keyboard, 
@@ -6,12 +6,13 @@ import {
     TouchableWithoutFeedback 
 } from "react-native";
 import { useForm } from "react-hook-form";
+import uuid from 'react-native-uuid';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup' 
 
 import { Button } from "../../components/Form/Button";
 import { CategorySelectLabel } from "../../components/Form/CategorySelectLabel";
-import { Input } from "../../components/Form/Input";
+
 import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
 import { InputForm } from "../../components/InputForm";
 import { CategorySelect } from "../CategorySelect";
@@ -23,6 +24,8 @@ import {
     FormFields,
     TransactionsOptions
 } from "./styles";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 interface FormData {
     [name: string]: any;
@@ -36,18 +39,23 @@ const shema = Yup.object().shape({
         .required('Please fill the Value field')
 });
 
+const dataKey = '@goFinance:transactions';
+
 export function Register() {
 
     const [transactionType, setTransactionType] = useState('');
     const [categorySelectModalOpen, setCategorySelectModalOpen] = useState(false);
     const [category, setCategory] = useState({
         key: "category",
-        name: "Categoria"
+        name: "Category"
     });
+
+    const navigation = useNavigation();
 
     const {
         control,
         handleSubmit,
+        reset,
         formState: { errors }
     } = useForm({
         resolver: yupResolver(shema)
@@ -60,7 +68,8 @@ export function Register() {
     function handleCategorySelectModalOpen(ativa : boolean) {
         setCategorySelectModalOpen(ativa);
     }
-    function handleRegister(form: FormData) { 
+
+    async function handleRegister(form: FormData) { 
         if(!transactionType) {
           return Alert.alert('Select the transaction type');
         }
@@ -69,13 +78,35 @@ export function Register() {
           return Alert.alert('Select a category');
         }
     
-        const dataFormRegister = {
+        const newTransaction = {
+          id: String(uuid.v4()),
           name: form.name,
           amount: form.amount,
           transactionType,
-          category: category.key
+          category: category.key,
+          date: new Date()
         }
-        console.log('Log: dataFormRegister', dataFormRegister)
+
+        try {
+            const data = await AsyncStorage.getItem(dataKey);
+            const currentTransactions = data ? JSON.parse(data) : [];
+
+            const newTransactions = [
+                ...currentTransactions,
+                newTransaction
+            ];
+            await AsyncStorage.setItem(dataKey, JSON.stringify(newTransactions));
+
+            reset();
+            setTransactionType('');
+            setCategory({
+                key: 'category',
+                name: 'Category'
+            });
+            navigation.navigate('Transactions'); //
+        } catch (error) {
+            console.log('LogErrro :', error);
+        }
       }
 
     return(
@@ -84,7 +115,7 @@ export function Register() {
         <Container>
             <Header>
                 <Title>
-                    Cadastro
+                    Register
                 </Title>
             </Header>
 

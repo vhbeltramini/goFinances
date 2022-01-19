@@ -33,7 +33,7 @@ export function CategorySelect({
         <Container>
             <Header>
                 <Title>
-                    Categoria
+                    Category
                 </Title>
             </Header>
 
@@ -54,8 +54,7 @@ export function CategorySelect({
             /> 
 
             <Footer>
-                <Button label="Selecionar" onPress={closeCategoryOptions} >
-                </Button>
+                <Button label="Select" onPress={closeCategoryOptions} />
             </Footer>
 
         </Container>
