@@ -7,6 +7,7 @@ import { Platform } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons'
 import { GoFinancesRoutesList } from "../utils/routes";
 import { createStackNavigator } from '@react-navigation/stack';
+import { Resume } from "../screens/Resume";
     
 export type RootStackParamList = {
   Home: undefined;
@@ -63,7 +64,7 @@ export function AppRoutes() {
             />
             <Screen 
                 name="Resume"
-                component={Dashboard}
+                component={Resume}
                 options={{ 
                     tabBarIcon: (({size, color}) => 
                         <MaterialIcons 

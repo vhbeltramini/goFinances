@@ -23,6 +23,7 @@ import {
 } from './styles';
 import { useFocusEffect } from "@react-navigation/native";
 import { ActivityIndicator } from "react-native";
+import { format } from "date-fns";
 
 export interface DataListProps extends TransactionCardProps {
     id: string;
@@ -48,17 +49,19 @@ export function Dashboard() {
     const theme = useTheme();
 
     function getLastTransactionDate(
-        collections: DataListProps[],
+        transactions: DataListProps[],
         type: 'positive' | 'negative'
     ) {
+        const lastTransaction = new Date(
+            Math.max.apply(
+              Math,
+              transactions
+                .filter(transaction => transaction.type === type)
+                .map(transaction => new Date(transaction.date).getTime()),
+            ),
+          );
         
-        const TransactionDate = new Date(Math.max.apply(Math, collections
-            .filter(transactions => transactions.type == type)
-            .map(transaction => new Date(transaction.date)
-            .getTime())));
-            
-        
-        return ` ${TransactionDate.getDate()} of ${TransactionDate.toLocaleString('en-US', { month: 'long'})}`;
+            return ` ${lastTransaction.getDate()} of ${format(lastTransaction, 'MMMM')}`;
     }
 
 
@@ -101,8 +104,16 @@ export function Dashboard() {
 
         setTransactions(transactionsFormated);
 
-        const lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
-        const lastTransactionOutgoing = getLastTransactionDate(transactions, 'negative');
+        let lastTransactionEntries = ``;
+        let lastTransactionOutgoing = ``;
+        console.log();
+
+        if (transactionsFormated.filter(transaction => transaction.type === 'positive').map(transaction => true)[0]) {
+            lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
+        } else if (transactionsFormated.filter(transaction => transaction.type === 'negative').map(transaction => true)[0]) {
+            lastTransactionOutgoing = getLastTransactionDate(transactions, 'negative');
+        }
+        
         const totalInterval = `01 to${lastTransactionOutgoing}`;
         
         const total = entriesTotal - outgoingTotal;
