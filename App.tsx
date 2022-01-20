@@ -1,3 +1,6 @@
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+
 import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
@@ -13,12 +16,8 @@ import theme from './src/global/styles/theme';
 
 import { NavigationContainer } from '@react-navigation/native'
 
-import { Dashboard } from './src/screens/Dashboard';
-
-import { Register } from './src/screens/Register';
 import { AppRoutes } from './src/routes/app.routes';
-
-
+import { StatusBar } from 'react-native';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -35,6 +34,7 @@ export default function App() {
 
     <ThemeProvider theme={theme}>
       <NavigationContainer>
+        <StatusBar barStyle="light-content" />
         <AppRoutes />
       </NavigationContainer>
       

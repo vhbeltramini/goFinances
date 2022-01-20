@@ -5,9 +5,20 @@ import { Register } from "../screens/Register";
 import { useTheme } from "styled-components";
 import { Platform } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons'
+import { GoFinancesRoutesList } from "../utils/routes";
+import { createStackNavigator } from '@react-navigation/stack';
+import { Resume } from "../screens/Resume";
+    
+export type RootStackParamList = {
+  Home: undefined;
+  Profile: { userId: string };
+  Feed: { sort: 'latest' | 'top' } | undefined;
+};
+    
+const RootStack = createStackNavigator<RootStackParamList>();
 
+const { Navigator, Screen } = createBottomTabNavigator<GoFinancesRoutesList>();
 
-const { Navigator, Screen } = createBottomTabNavigator();
 
 export function AppRoutes() {
     const theme = useTheme();
@@ -39,7 +50,7 @@ export function AppRoutes() {
                 }}
             />
             <Screen 
-                name="New Record"
+                name="Add"
                 component={Register}
                 options={{ 
                     tabBarIcon: (({size, color}) => 
@@ -53,7 +64,7 @@ export function AppRoutes() {
             />
             <Screen 
                 name="Resume"
-                component={Dashboard}
+                component={Resume}
                 options={{ 
                     tabBarIcon: (({size, color}) => 
                         <MaterialIcons 

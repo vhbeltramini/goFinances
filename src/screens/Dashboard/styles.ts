@@ -7,6 +7,7 @@ import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper
 import theme from '../../global/styles/theme';
 
 import { DataListProps } from '.';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 
 export const Container = styled.View`
@@ -70,6 +71,10 @@ export const IconSignOff = styled(Feather)`
     font-size: ${RFValue(24)}px;
 `;
 
+export const LogoutButton = styled(BorderlessButton)`
+    
+`;
+
 export const HighlightCards = styled.ScrollView.attrs({
     horizontal: true,
     showsHorizontalScrollIndicator: false,
@@ -100,4 +105,10 @@ export const TransactionList = styled(
     showsVerticalScrollIndicator:false
 })`
 
+`;
+
+export const LoadContainer = styled.View`
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 `;

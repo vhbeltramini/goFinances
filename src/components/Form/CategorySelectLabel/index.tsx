@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacityProps } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { 
     Container,
     CategoryName,
@@ -7,15 +8,14 @@ import {
 } from './styles'
 
 
-interface Props extends TouchableOpacityProps {
+interface Props extends RectButtonProps {
     title: string;
 }
 
 
 export function CategorySelectLabel({
     title,
-    onPress,
-    ...rest
+    onPress
 } : Props) {
     return (
         <Container onPress={onPress} >
