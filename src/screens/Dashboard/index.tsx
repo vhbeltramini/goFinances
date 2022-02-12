@@ -106,7 +106,6 @@ export function Dashboard() {
 
         let lastTransactionEntries = ``;
         let lastTransactionOutgoing = ``;
-        console.log();
 
         if (transactionsFormated.filter(transaction => transaction.type === 'positive').map(transaction => true)[0]) {
             lastTransactionEntries = getLastTransactionDate(transactions, 'positive');
